@@ -1,15 +1,17 @@
 var str  = prompt( 'Введите предложение русскими буквами', '');
 var summa = 0;
-if (str != null && str != undefined && str != '' && str !=NaN){
-  function calculatorLetters(str, letter) {
-    var sum = 0;
-    var  pos = str.indexOf(letter);
-    while (pos !== -1) {
-      sum++;
-      pos = str.indexOf(letter, pos + 1);
-    }
-    return sum;
+
+function calculatorLetters(line, letter) {
+  var sum = 0;
+  var  pos = line.indexOf(letter);
+  while (pos !== -1) {
+    sum++;
+    pos = line.indexOf(letter, pos + 1);
   }
+  return sum;
+}
+
+if (!!str === true) {
   summa += calculatorLetters(str.toLowerCase(), 'а');
   summa += calculatorLetters(str.toLowerCase(), 'о');
   summa += calculatorLetters(str.toLowerCase(), 'и');
@@ -25,3 +27,5 @@ if (str != null && str != undefined && str != '' && str !=NaN){
 } else {
   alert('Вы ничего не ввели!');
 }
+
+console.log(summa);
