@@ -5,8 +5,8 @@ function calculatorLetters(line, letter) {
   var sum = 0;
   var  pos = line.indexOf(letter);
   while (pos !== -1) {
-    sum++;
     pos = line.indexOf(letter, pos + 1);
+    sum++;
   }
   return sum;
 }
