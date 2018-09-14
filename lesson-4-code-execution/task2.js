@@ -1,11 +1,5 @@
 'use strict'
 
-var image = {
-  width: 100,
-  height: 400,
-  title: 'Cool image'
-};
-
 function multiplyNumeric(arg) {
   for (var key in arg) {
     if (typeof arg[key] === 'number') {
@@ -14,8 +8,5 @@ function multiplyNumeric(arg) {
   }
   return arg;
 }
-
-multiplyNumeric(image);
-console.log(image);
 
 module.exports = multiplyNumeric;

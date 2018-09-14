@@ -1,20 +1,27 @@
 'use strict'
 
-var tasksCompleted = {
-  'Anna': 29,
-  'Serg': 35,
-  'Elena': 1,
-  'Anton': 99
-};
-
 function considersMax(obj) {
   var max = 0;
+  var maxName = '';
+  var index  = 0;
+
   for (var key in obj) {
     max = Math.max(max, obj[key]);
+    index++;
   }
-  return max;
-}
+  // ищем всех  сотрудников, у кого мах значение   и записываем  в  строку
+  for (var key in obj) {
+    if (max === obj[key]) {
+      maxName = maxName + key + ', ';
+    }
+  }
+  // обрезаем последнюю запятую с пробелом
+  maxName = maxName.substr(0, maxName.length - 2);
 
-console.log(considersMax(tasksCompleted));
+  if (maxName.split(', ').length === index) {
+    return 'No max';
+  }
+  return maxName;
+}
 
 module.exports = considersMax;
