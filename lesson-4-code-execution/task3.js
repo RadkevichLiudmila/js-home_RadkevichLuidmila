@@ -2,13 +2,12 @@
 
 var arr = [];
 
-while (true) {
+do{
   var value =  prompt('Введите любое число', 0);
-  if (value  === null ||  isNaN(value) === true || value === '') {
-    break;
+  if (isNaN(parseInt(value, 10)) !== true) {
+    arr.push(parseInt(value, 10));
   }
-  arr.push(+value);
-}
+}while (isNaN(parseInt(value, 10)) === true)
 
 var sum = 0;
 for (var i = 0; i < arr.length; i++) {
