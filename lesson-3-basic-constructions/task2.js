@@ -1,41 +1,26 @@
 var lastName = prompt('Ваша фамилия?', '');
-do {
-  if (!!lastName === true && lastName !== ' ') {
-    break;
-  }
+while (!lastName) {
   lastName = prompt('Вы ввели некоректные данные! \n' +
       'Ваша фамилия?', '');
-} while (true);
-
+};
 
 var firstName = prompt('Ваше имя?', '');
-do {
-  if (!!firstName === true && firstName !== ' ') {
-    break;
-  }
+while (!firstName) {
   firstName = prompt('Вы ввели некоректные данные! \n' +
       'Ваше имя?', '');
-} while (true);
-
+};
 
 var patronymic = prompt('Ваше отчество?', '');
-do {
-  if (!!patronymic === true && patronymic !== ' ') {
-    break;
-  }
+while (!patronymic) {
   patronymic = prompt('Вы ввели некоректные данные! \n' +
       'Ваше отчество?', '');
-} while (true);
-
+};
 
 var age = parseInt(prompt('Сколько вам лет?', ''), 10);
-do {
-  if (!!age === true)  {
-    break;
-  }
+while (!age) {
   age = parseInt(prompt('Вы ввели некоректные данные! \n' +
       'Сколько вам лет?', ''), 10);
-} while (true);
+};
 
 var gender = confirm('Вы мужчина?') ? 'мужской' : 'женский';
 
