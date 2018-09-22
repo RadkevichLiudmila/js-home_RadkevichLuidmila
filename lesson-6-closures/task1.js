@@ -71,6 +71,6 @@ if (averageJohn > averageMark) {
   console.log('Average tip equally');
 }
 
-module.exports.billEndCalc = billJohn.billEndCalc;
-module.exports.tipCalc = billJohn.tipCalc;
-
+module.exports.exportJohn = billJohn;
+module.exports.exportMark = billMark;
+module.exports.exportAverageValue = averageValueCalc;
