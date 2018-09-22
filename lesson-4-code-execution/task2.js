@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 function multiplyNumeric(arg) {
   for (var key in arg) {

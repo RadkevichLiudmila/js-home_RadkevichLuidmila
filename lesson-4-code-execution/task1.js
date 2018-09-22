@@ -1,25 +1,23 @@
-'use strict'
+'use strict';
 
 function considersMax(obj) {
   var max = 0;
   var maxName = '';
-  var index  = 0;
 
+  //ищем мах значение
   for (var key in obj) {
     max = Math.max(max, obj[key]);
-    index++;
   }
-  // ищем всех  сотрудников, у кого мах значение   и записываем  в  строку
+
+  //ищем  имя с мах значением, если их несколько вернем 'No max'
   for (var key in obj) {
     if (max === obj[key]) {
-      maxName = maxName + key + ', ';
+      if (maxName === '') {
+        maxName = key;
+      } else {
+        return 'No max';
+      }
     }
-  }
-  // обрезаем последнюю запятую с пробелом
-  maxName = maxName.substr(0, maxName.length - 2);
-
-  if (maxName.split(', ').length === index) {
-    return 'No max';
   }
   return maxName;
 }
