@@ -1,5 +1,8 @@
-const billJohn.tipCalc = require('./task1');
-const billJohn.billEndCalc = require('./task1');
+//var billBeginner = require('./task1');
+//var tip = billBeginner.tipCalc;
+//var tip = billJohn.billBeginner.tipCalc;
+var billEndCalc = require('./task1');
+var tipCalc = require('./task1');
 
 describe('Test calculator tips - file test1', () => {
   it('Tips John and his family from really bills', () => {
