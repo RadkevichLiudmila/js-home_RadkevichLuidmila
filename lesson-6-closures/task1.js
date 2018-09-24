@@ -1,56 +1,60 @@
 'use strict';
-var billJohn = {
-  billBeginner: [124, 48, 268, 180, 42],
+var john = {
+  bills: [124, 48, 268, 180, 42],
   tipCalc: function () {
     this.tip = [];
-    for (var i = 0; i < this.billBeginner.length; i++) {
-      if (this.billBeginner[i] <= 50) {
-        this.tip[i] = parseFloat((this.billBeginner[i] * 0.2).toFixed(2));
-      } else if (this.billBeginner[i] > 200) {
-        this.tip[i] = parseFloat((this.billBeginner[i] * 0.1).toFixed(2));
+    var percent = 0;
+    for (var i = 0; i < this.bills.length; i++) {
+      if (this.bills[i] <= 50) {
+        percent = 0.2;
+      } else if (this.bills[i] > 200) {
+        percent = 0.1;
       } else {
-        this.tip[i] = parseFloat((this.billBeginner[i] * 0.15).toFixed(2));
+        percent = 0.15;
       }
+      this.tip[i] = parseFloat((this.bills[i] * percent).toFixed(2));
     }
     return  this.tip;
   },
   billEndCalc: function () {
     this.billEnd = [];
-    for (var j = 0; j < this.billBeginner.length; j++) {
-      this.billEnd[j] = this.billBeginner[j] + this.tip[j];
+    for (var j = 0; j < this.bills.length; j++) {
+      this.billEnd[j] = this.bills[j] + this.tip[j];
     }
     return this.billEnd;
   }
 }
 
-console.log('John\'s tips: ' + billJohn.tipCalc().join(',   '));
-console.log('The final John\'s bills: ' + billJohn.billEndCalc().join(', '));
+console.log('John\'s tips: ' + john.tipCalc().join(',   '));
+console.log('The final John\'s bills: ' + john.billEndCalc().join(', '));
 
-var billMark = {
-  billBeginner: [77, 375, 110, 45],
+var mark = {
+  bills: [77, 375, 110, 45],
   tipCalc: function () {
     this.tip = [];
-    for (var i = 0; i < this.billBeginner.length; i++) {
-      if (this.billBeginner[i] <= 100) {
-        this.tip[i] = parseFloat((this.billBeginner[i] * 0.2).toFixed(2));
-      } else if (this.billBeginner[i] > 300) {
-        this.tip[i] = parseFloat((this.billBeginner[i] * 0.25).toFixed(2));
+    var percent = 0;
+    for (var i = 0; i < this.bills.length; i++) {
+      if (this.bills[i] <= 100) {
+        percent = 0.2;
+      } else if (this.bills[i] > 300) {
+        percent = 0.25;
       } else {
-        this.tip[i] = parseFloat((this.billBeginner[i] * 0.1).toFixed(2));
+        percent = 0.1;
       }
+      this.tip[i] = parseFloat((this.bills[i] * percent).toFixed(2));
     }
     return  this.tip;
   },
   billEndCalc: function () {
     this.billEnd = [];
-    for (var j = 0; j < this.billBeginner.length; j++) {
-      this.billEnd[j] = this.billBeginner[j] + this.tip[j];
+    for (var j = 0; j < this.bills.length; j++) {
+      this.billEnd[j] = this.bills[j] + this.tip[j];
     }
     return this.billEnd;
   }
 }
-console.log('Mark\'s tips: ' + billMark.tipCalc().join(',   '));
-console.log('The final Mark\'s bills: ' + billMark.billEndCalc().join(', '));
+console.log('Mark\'s tips: ' + mark.tipCalc().join(',   '));
+console.log('The final Mark\'s bills: ' + mark.billEndCalc().join(', '));
 
 
 function averageValueCalc(arr) {
@@ -60,17 +64,17 @@ function averageValueCalc(arr) {
   }
   return averageValue / arr.length;
 }
-var averageJohn = parseFloat(averageValueCalc(billJohn.tip).toFixed(2));
-var averageMark = parseFloat(averageValueCalc(billMark.tip).toFixed(2));
+john.average = averageValueCalc(john.tip);
+mark.average = averageValueCalc(mark.tip);
 
-if (averageJohn > averageMark) {
+if (john.average > mark.average) {
   console.log('The John family left more tips than the Mark family');
-} else if (averageJohn < averageMark) {
+} else if (john.average < mark.average) {
   console.log('The Mark family left more tips than the John family');
 }  else {
   console.log('Average tip equally');
 }
 
-module.exports.exportJohn = billJohn;
-module.exports.exportMark = billMark;
+module.exports.exportJohn = john;
+module.exports.exportMark = mark;
 module.exports.exportAverageValue = averageValueCalc;
