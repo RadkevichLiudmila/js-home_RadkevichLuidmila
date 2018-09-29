@@ -1,22 +1,11 @@
 'use strict';
 function isPal(str) {
-  function itemsDelete(arr) {
-    for (var i = 0; i < arr.length; i++) {
-      if (arr[i] === ' ' || arr[i] === ',' || arr[i] === '-' || arr[i] === '!' || arr[i] === '?') {
-        arr.splice(i, 1);
-        i--;
-      }
-    }
-    return arr;
+  function itemsDelete(item) {
+    return item !== ' ' && item !== ',' && item !== '!' && item !== '?' && item !== '-';
   }
 
-  var strOrigin = str.toLowerCase().split('');
-  itemsDelete(strOrigin);
-  strOrigin =  strOrigin.join('');
-
-  var strReverse = str.toLowerCase().split('');
-  itemsDelete(strReverse);
-  strReverse =  strReverse.reverse().join('');
+  var strOrigin = str.toLowerCase().split('').filter(itemsDelete).join('');
+  var strReverse = str.toLowerCase().split('').reverse().filter(itemsDelete).join('');
 
   if (strOrigin === strReverse) {
     return true;
