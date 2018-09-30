@@ -1,28 +1,30 @@
 'use strict';
 function anClean(arr) {
-  var arrModified = arr.map(modified);
 
   function modified(element) {
     return element.toLowerCase().split('').sort().join('');
   }
-  for (var i = 0; i  < arrModified.length; i++) {
-    var value = arrModified[i];
-    if (arrModified.indexOf(value, i + 1) !== -1) {
-      arrModified[i] = 'repeat';
+
+  function lookForRepeat(element, index, array) {
+    var value = element;
+    if (array.indexOf(value, index + 1) !== -1) {
+      return 'repeat';
     }
+    return element;
   }
-  for (i = 0; i  < arr.length; i++) {
-    if (arrModified[i] ===  'repeat') {
-      delete arr[i];
+
+  function elementDelete(arr1, arr2) {
+    for (var i = 0; i < arr2.length; i++) {
+      if (arr2[i] === 'repeat') {
+        delete arr1[i];
+      }
     }
+    return arr1;
   }
-  function elementDelete(element) {
-    return element !== '';
-  }
+
+  var arrModified = arr.map(modified).map(lookForRepeat);
+  elementDelete(arr, arrModified);
   return arr.filter(elementDelete);
 }
-
-var arr = ['воз', 'киборг', 'корсет', 'ЗОВ', 'гробик', 'костер', 'сектор'];
-console.log(anClean(arr));
 
 module.exports = anClean;
