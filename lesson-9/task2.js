@@ -1,11 +1,11 @@
 'use strict';
 function isPal(str) {
-  function itemsDelete(item) {
-    return item !== ' ' && item !== ',' && item !== '!' && item !== '?' && item !== '-';
+  function elementDelete(element) {
+    return element !== ' ' && element !== ',' && element !== '!' && element !== '?' && element !== '-';
   }
 
-  var strOrigin = str.toLowerCase().split('').filter(itemsDelete).join('');
-  var strReverse = str.toLowerCase().split('').reverse().filter(itemsDelete).join('');
+  var strOrigin = str.toLowerCase().split('').filter(elementDelete).join('');
+  var strReverse = str.toLowerCase().split('').reverse().filter(elementDelete).join('');
 
   if (strOrigin === strReverse) {
     return true;
