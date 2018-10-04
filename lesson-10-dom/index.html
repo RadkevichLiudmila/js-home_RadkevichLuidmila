@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <link type="text/css" rel="stylesheet" href="style.css">
+        <title>Drinks</title>
+    </head>
+    <body>
+
+        <button class="btn-input">ввод информации о напитке</button>
+        <button class="btn-show">получение информации о напитке</button>
+        <button class="btn-delete">удаление информации о напитке</button>
+        <button class="btn-list-drinks">перечень всех напитков</button>
+
+    <div class="bloks">
+        <div class="name-drink">
+            <p>Введите название напитка</p>
+            <input type="text" class="inp-name-drink">
+            <button class="btn-name-drink">дальше</button>
+            <button class="btn-cancel-1">отмена</button>
+        </div>
+
+        <div class="alco-or-no">
+            <p>Напиток алкогольный?</p>
+            <button class="btn-yes">да</button>
+            <button class="btn-no">нет</button>
+            <button class="btn-cancel-1">отмена</button>
+        </div>
+
+        <div class="recipe">
+            <p>Введите рецепт напитка</p>
+            <input type="text" class="inp-recipe">
+            <button class="btn-recipe">дальше</button>
+            <button class="btn-cancel-1">отмена</button>
+        </div>
+    </div>
+
+    <div class="bloks bl-2">
+        <p>Введите название напитка о котором вы хотите узнать</p>
+        <input type="text" class="inp-name-drink" id="txt-2">
+        <ul class="list-2">
+        </ul>
+        <button class="btn-show-drink">показать</button>
+        <button class="btn-cancel-2">отмена</button>
+    </div>
+
+    <div class="bloks bl-3">
+        <p>Какой напиток вы хотите удалить?</p>
+        <input type="text" class="inp-name-drink">
+        <button class="btn-delete-drink">удалить</button>
+        <button class="btn-cancel-3">отмена</button>
+    </div>
+
+    <div class="bloks bl-4">
+
+        <ul class="list-4">
+        </ul>
+        <button class="btn-cancel-4">отмена</button>
+    </div>
+
+        <script  src="hashStorage.js"></script>
+    </body>
+</html>
