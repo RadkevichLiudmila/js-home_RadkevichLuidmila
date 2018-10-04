@@ -15,7 +15,9 @@
     <div class="bloks">
         <div class="name-drink">
             <p>Введите название напитка</p>
-            <input type="text" class="inp-name-drink">
+            <input type="text" class="inp-name-drink" id="txt-01">
+            <ul class="list-01">
+            </ul>
             <button class="btn-name-drink">дальше</button>
             <button class="btn-cancel-1">отмена</button>
         </div>
@@ -24,14 +26,14 @@
             <p>Напиток алкогольный?</p>
             <button class="btn-yes">да</button>
             <button class="btn-no">нет</button>
-            <button class="btn-cancel-1">отмена</button>
         </div>
 
         <div class="recipe">
             <p>Введите рецепт напитка</p>
-            <input type="text" class="inp-recipe">
+            <input type="text" class="inp-recipe" id="txt-11">
+            <ul class="list-11">
+            </ul>
             <button class="btn-recipe">дальше</button>
-            <button class="btn-cancel-1">отмена</button>
         </div>
     </div>
 
@@ -41,23 +43,24 @@
         <ul class="list-2">
         </ul>
         <button class="btn-show-drink">показать</button>
-        <button class="btn-cancel-2">отмена</button>
+        <button class="btn-cancel-2">назад</button>
     </div>
 
     <div class="bloks bl-3">
         <p>Какой напиток вы хотите удалить?</p>
-        <input type="text" class="inp-name-drink">
+        <input type="text" class="inp-name-drink" id="txt-3">
+        <ul class="list-3">
+        </ul>
         <button class="btn-delete-drink">удалить</button>
-        <button class="btn-cancel-3">отмена</button>
+        <button class="btn-cancel-3">назад</button>
     </div>
 
     <div class="bloks bl-4">
-
         <ul class="list-4">
         </ul>
-        <button class="btn-cancel-4">отмена</button>
+        <button class="btn-cancel-4">назад</button>
     </div>
 
-        <script  src="hashStorage.js"></script>
+        <script  src="storage.js"></script>
     </body>
 </html>
