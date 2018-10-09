@@ -76,46 +76,46 @@
   }
 
   formDynamic(dataObj);
-  
+
   function addInput(type) {
-	  document.write('<input type=' + type + '>');
+    document.write('<input type=' + type + '>');
   }
 
   function addText(val) {
-	  document.write('<p>' + val + '</p>');
+    document.write('<p>' + val + '</p>');
   }
-  
+
   function addLabel(val) {
-	  document.write('<label>' + val + '</label>');
+    document.write('<label>' + val + '</label>');
   }
-  
+
   function addSelect(obj) {
-	  document.write('<select>');
-	  for (var key in obj) {
-		  document.write('<option>' + key + '</option>');
-	  }
-	  document.write('</select>');
+    document.write('<select>');
+    for (var key in obj) {
+      document.write('<option>' + key + '</option>');
+    }
+    document.write('</select>');
   }
-  
+
   function addRadio(obj) {
-	  for (var key in obj) {
-		  document.write('<input type="radio">' + key);
-  	}
+    for (var key in obj) {
+      document.write('<input type="radio">' + key);
+    }
   }
-  
+
   function addCheckbox(obj) {
-	  var chek = '';
-	  if (obj.checked) {
-		  chek = 'checked';
-	  }
-	  document.write('<input type="checkbox"' + chek + '>');
+    var chek = '';
+    if (obj.checked) {
+      chek = 'checked';
+    }
+    document.write('<input type="checkbox"' + chek + '>');
   }
-  
+
   function addTextarea(obj) {
-	  document.write('<textarea rows=' + obj.rows + ' cols=' + obj.cols + '></textarea>');
+    document.write('<textarea rows=' + obj.rows + ' cols=' + obj.cols + '></textarea>');
   }
-  
+
   function addSumbit(val) {
-	  document.write('<input  type=submit value=' + val + '>');
+    document.write('<input  type=submit value=' + val + '>');
   }
 })();
