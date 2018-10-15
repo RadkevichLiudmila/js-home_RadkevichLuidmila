@@ -5,28 +5,28 @@
 
   let clockArr = []; // массив для всех <div>
   let baseClock; // первый "самый главный <div>", который будет содержать все остальные <div>
-  let hours ; // число часа на данный момент
-  let minutes ; // число минут на данный момент
-  let seconds ; // число секунд на данный момент
+  let hours; // число часа на данный момент
+  let minutes; // число минут на данный момент
+  let seconds; // число секунд на данный момент
 
   // ------------- CSS style for div ------------------
-  function addCSS(index, cX, cY, color, borRad){
-    clockArr[index].style.width = Math.round(sizeClock/cX) + 'px';
-    clockArr[index].style.height = Math.round(sizeClock/cY) + 'px';
+  function addCSS(index, cX, cY, color, borRad) {
+    clockArr[index].style.width = Math.round(sizeClock / cX) + 'px';
+    clockArr[index].style.height = Math.round(sizeClock / cY) + 'px';
     clockArr[index].style.background = color;
     clockArr[index].style.borderRadius = borRad + '%';
     if (index !== 0) {
       clockArr[index].style.position = 'absolute';
     }
-    if (index > 0){
-      clockArr[index].style.left =  calcCoordElemX(index) + 'px';
-      clockArr[index].style.top =  calcCoordElemY(index) + 'px';
+    if (index > 0) {
+      clockArr[index].style.left = calcCoordElemX(index) + 'px';
+      clockArr[index].style.top = calcCoordElemY(index) + 'px';
     }
   };
 
   // ------------- calc coord for element X ------------------
   function calcCoordElemX(val) {
-    let centrElX = parseInt(clockArr[val].style.width)/2; // центр элемента по Х
+    let centrElX = parseInt(clockArr[val].style.width) / 2; // центр элемента по Х
     let coordElX = marginClock + centrX - centrElX; // координаты элемента по Х
     return coordElX;
   }
@@ -58,7 +58,6 @@
   let clock = document.createElement('div');
   document.getElementById('body').appendChild(clock);
 
-  // -------------- create baseClock ---------------
   clockArr[0] = document.getElementsByTagName('div')[0];
   clockArr[0].id = 'base_clock';
   baseClock = document.getElementById('base_clock');
@@ -71,9 +70,14 @@
   addCSS(0, 1, 1, '#C0C0C0', 50);
 
   //--------------- const --------------------
-  const marginClock = parseInt(base.style.margin) + parseInt(baseClock.style.margin); // общий отступ margin
-  const centrX = parseInt(baseClock.style.width)/2; // центр часов по Х
-  const centrY = parseInt(baseClock.style.height)/2; // центр часов по Y
+  base.style.margin = base.style.margin || '0px';
+  base.style.padding = base.style.padding || '0px';
+  baseClock.style.margin = baseClock.style.margin || '0px';
+  baseClock.style.padding = baseClock.style.padding || '0px';
+  const marginClock = parseInt(base.style.margin) + parseInt(base.style.padding)
+    + parseInt(baseClock.style.margin) + parseInt(baseClock.style.padding); // общий отступ margin и padding
+  const centrX = parseInt(baseClock.style.width) / 2; // центр часов по Х
+  const centrY = parseInt(baseClock.style.height) / 2; // центр часов по Y
 
   // ----------- create numbers (tag p) -----------------
   function createBaseForNumber(val) {
@@ -86,11 +90,12 @@
 
     clockArr[val].style.transform = 
       'rotate(' + (val * 30 + 270) + 'deg) translateX(' + 
-      Math.round(sizeClock/2.6) + 'px) rotate(' + (-val * 30 + 90) + 'deg)';
+      Math.round(sizeClock / 2.6) + 'px) rotate(' + (-val * 30 + 90) + 'deg)';
   
    BaseForNumber.innerHTML = 
-   '<p style="color: #191970; font-weight: bold; margin: 0; font-size:'+ 
-   Math.round(sizeClock/10) + 'px; display:flex; justify-content:center;">' + val + '</p>';
+    '<p style="color: #191970; font-weight: bold; margin: 0; font-size:'
+     + Math.round(sizeClock / 10) + 'px; display:flex; justify-content:center;">'
+     + val + '</p>';
   }
 
   for (let i = 1; i < 13; i++) {
@@ -98,26 +103,26 @@
   }
 
   // ------------- create hour hands ------------------
-function createHands() {
+  function createHands() {
   
-  let hourHand = document.createElement('div');
+    let hourHand = document.createElement('div');
     document.getElementById('base_clock').appendChild(hourHand);
     clockArr[13] = document.getElementsByTagName('div')[13];
     addCSS(13, 33, 4, '#191970', 20);
     
-  let minuteHand = document.createElement('div');
-  document.getElementById('base_clock').appendChild(minuteHand);
-  clockArr[14] = document.getElementsByTagName('div')[14];
-  addCSS(14, 50, 3, '#191970', 20);
+    let minuteHand = document.createElement('div');
+    document.getElementById('base_clock').appendChild(minuteHand);
+    clockArr[14] = document.getElementsByTagName('div')[14];
+    addCSS(14, 50, 3, '#191970', 20);
 
-  let secondHand = document.createElement('div');
-  document.getElementById('base_clock').appendChild(secondHand);
-  clockArr[15] = document.getElementsByTagName('div')[15];
-  addCSS(15, 200, 2.5, 'red', 20);
-}
-createHands();
+    let secondHand = document.createElement('div');
+    document.getElementById('base_clock').appendChild(secondHand);
+    clockArr[15] = document.getElementsByTagName('div')[15];
+    addCSS(15, 200, 2.5, 'red', 20);
+  }
+  createHands();
 
-//function makeTime() {
+  // ------------- create electronic clock ------------------
   let timer = document.createElement('div');
   document.getElementById('base_clock').appendChild(timer);
   clockArr[16] = document.getElementsByTagName('div')[16];
@@ -130,8 +135,9 @@ createHands();
     seconds = CurrTime.getSeconds();
 
     clockArr[16].innerHTML = 
-      '<p style="font-size: ' + Math.round(sizeClock/13.3) + 'px; font-weight: bold; color: #FFFAFA; text-shadow: #000000 1px 1px 0, #000000 2px 2px 0;" >' +
-      Str0L(hours, 2) + ':' + Str0L(minutes, 2) + ':' + Str0L(seconds, 2) + '</p>';
+      '<p style="font-size: ' + Math.round(sizeClock/13.3)
+      + 'px; font-weight: bold; color: #FFFAFA; text-shadow: #000000 1px 1px 0, #000000 2px 2px 0;" >'
+      + Str0L(hours, 2) + ':' + Str0L(minutes, 2) + ':' + Str0L(seconds, 2) + '</p>';
   }
 
   function Str0L(val, len) {
@@ -141,6 +147,7 @@ createHands();
     return strVal;
   }
 
+  //----------- launch mechanism --------------
   function goHandClock(cl, val) {
     clockArr[val].style.transform = 
       'rotate(' + cl * 6 + 'deg) translateX(-5px) rotate(' + 0 + 'deg)';
