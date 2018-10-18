@@ -30,9 +30,9 @@ function createWatch() {
   return base;
 }
 
-function createClockFace(){
+function createClockFace() {
   let clockFace = document.createDocumentFragment();
-  for (let number = 1; number <= 12; number++){
+  for (let number = 1; number <= 12; number++) {
     let angle = number * 30 / 180 * Math.PI;
     let x = baseRadius + Math.round(Math.sin(angle) * numbersBaseRadius);
     let y = baseRadius - Math.round(Math.cos(angle) * numbersBaseRadius);
@@ -42,7 +42,7 @@ function createClockFace(){
   return clockFace;
 }
 
-function createHourCircle(circleX, circleY){
+function createHourCircle(circleX, circleY) {
   let circle =document.createElementNS("http://www.w3.org/2000/svg", 'circle');
   circle.setAttribute("fill", "#f1f1f1");
   circle.setAttribute("r", circleRadius);
@@ -53,17 +53,17 @@ function createHourCircle(circleX, circleY){
 
 function createNumberCircle(circleX, circleY, number) {
   let text = document.createElementNS("http://www.w3.org/2000/svg", 'text');
-  text.setAttribute("x", circleX - circleRadius/3 + baseRadius / 15);
-  text.setAttribute("y", circleY + circleRadius/3 + baseRadius / 15);
+  text.setAttribute("x", circleX - circleRadius / 3 + baseRadius / 15);
+  text.setAttribute("y", circleY + circleRadius / 3 + baseRadius / 15);
   text.setAttribute("font-size", circleRadius);
   text.textContent = number;
   return text;
 }
 
 function createDigitalWatch() {
-  let textClock = document.createElementNS("http://www.w3.org/2000/svg", 'rect');;
-  textClock.setAttribute("width", baseRadius/1.5);
-  textClock.setAttribute("height", baseRadius/3.5);
+  let textClock = document.createElementNS("http://www.w3.org/2000/svg", 'rect');
+  textClock.setAttribute("width", baseRadius / 1.5);
+  textClock.setAttribute("height", baseRadius / 3.5);
   textClock.setAttribute("x", baseRadius  + baseRadius / 15 - baseRadius / 3);
   textClock.setAttribute("y", baseRadius  + baseRadius / 15 + baseRadius / 5 );
   textClock.setAttribute("fill", "#f1f1f1");
@@ -74,17 +74,17 @@ function createDigitalWatch() {
 
   function createDigitalText(id, coord){
     let digitsH = document.createElementNS("http://www.w3.org/2000/svg", 'text');
-    digitsH.setAttribute("x", baseRadius  + baseRadius / 15 - baseRadius / 6 + coord);
-    digitsH.setAttribute("y", baseRadius  + baseRadius / 15 + baseRadius / 2.7);
+    digitsH.setAttribute("x", baseRadius + baseRadius / 15 - baseRadius / 6 + coord);
+    digitsH.setAttribute("y", baseRadius + baseRadius / 15 + baseRadius / 2.7);
     digitsH.setAttribute("fill", "#B0C4DE");
     digitsH.setAttribute("id", id);
-    digitsH.setAttribute("font-size", circleRadius*1.5);
+    digitsH.setAttribute("font-size", circleRadius * 1.5);
     svgClock.appendChild(digitsH);
   }
   return textClock;
 }
 
-function createArrow(arrowType, arrowWidth, arrowColor){
+function createArrow(arrowType, arrowWidth, arrowColor) {
   let arrow = document.createElementNS("http://www.w3.org/2000/svg", 'line');
   arrow.setAttribute("x1", baseRadius + baseRadius / 15);
   arrow.setAttribute("y1", baseRadius + baseRadius / 15);
@@ -109,38 +109,38 @@ function createDecorativeDot(size){
 }
 
 // Logic
-function tickTimer(){
+function tickTimer() {
   let now = new Date();
   let thisSecond = now.getSeconds();
   let thisMinute = now.getMinutes();
-  let thisHour   = now.getHours();
+  let thisHour = now.getHours();
   updateWatch(thisHour, thisMinute, thisSecond);
   updateDigitalWatch(thisHour, thisMinute, thisSecond);
 }
 
-function updateWatch(hour, minute, second){
+function updateWatch(hour, minute, second) {
   let thisSecondRotate = (second / 60) * 360 - 90;
   let thisMinuteRotate = (minute) / 60 * 360 - 90;
-  let thisHourRotate   = (hour + minute / 60) / 12 * 360 - 90;
+  let thisHourRotate = (hour + minute / 60) / 12 * 360 - 90;
   rotateHandle('seconds', thisSecondRotate );
   rotateHandle('minutes', thisMinuteRotate);
   rotateHandle('hours', thisHourRotate);
 }
 
-function rotateHandle(handle, degree){
+function rotateHandle(handle, degree) {
   let arrow = document.getElementById(handle);
   arrow.setAttribute("transform", `rotate(${degree} ${baseRadius + baseRadius / 15} ${baseRadius + baseRadius / 15})`);
 }
 
-function updateDigitalWatch(hour, minute, second){
+function updateDigitalWatch(hour, minute, second) {
   let digitalWatchSeconds = document.getElementById('secondstext');
-  let digitalWatchMinutes = document.getElementById('minutestext')
+  let digitalWatchMinutes = document.getElementById('minutestext');
   let digitalWatchHours = document.getElementById('hourstext');
   digitalWatchSeconds.textContent = ':' + addZeroToNumber(second);
   digitalWatchMinutes.textContent = ':' + addZeroToNumber(minute);
   digitalWatchHours.textContent = addZeroToNumber(hour);
 }
 
-function addZeroToNumber(currentTime){
+function addZeroToNumber(currentTime) {
   return (`${currentTime}`.length < 2) ? (`0${currentTime}`) : currentTime;
 }
