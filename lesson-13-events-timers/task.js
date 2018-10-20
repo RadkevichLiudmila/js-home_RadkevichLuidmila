@@ -1,188 +1,155 @@
 'use strict';
-(function clockShow() {
 
-  const sizeClock = 400; // размер часов, размер можно меныть, часы уменьшатся/увеличатся пропорционально
+const sizeClock = 400; // размер часов, размер можно меныть, часы уменьшатся/увеличатся пропорционально
+let marginClock; // внешние отступы, нужно для координат часов
+const centrClock = sizeClock / 2; // центр часов
+let hours; // число часа на данный момент
+let minutes; // число минут на данный момент
+let seconds; // число секунд на данный момент
 
-  let clockArr = []; // массив для всех <div>
-  let baseClock; // первый "самый главный <div>", который будет содержать все остальные <div>
-  let hours; // число часа на данный момент
-  let minutes; // число минут на данный момент
-  let seconds; // число секунд на данный момент
+document.getElementsByTagName('body')[0].id = 'body';
+let bodyClock = document.getElementById('body');
+bodyClock.style.margin = '0px';
+bodyClock.style.padding = '0px';
+bodyClock.appendChild(createClock());
+//вызываем таймер
+setInterval(goTime, 1000);
 
-  // ------------- CSS style for div ------------------ функция задает стили для некотрых элементов
-  function addCSS(index, cX, cY, color, borRad) {
-    clockArr[index].style.width = Math.round(sizeClock / cX) + 'px';
-    clockArr[index].style.height = Math.round(sizeClock / cY) + 'px';
-    clockArr[index].style.background = color;
-    clockArr[index].style.borderRadius = borRad + '%';
-    if (index !== 0) {
-      clockArr[index].style.position = 'absolute';
-    }
-    if (index > 0) {
-      clockArr[index].style.left = calcCoordElemX(index) + 'px';
-      clockArr[index].style.top = calcCoordElemY(index) + 'px';
-    }
-  };
-
-  // ------------- calc coord for element X ---- считает координаты элементов по Х относительно окна браузера
-  function calcCoordElemX(val) {
-    let centrElX = parseInt(clockArr[val].style.width) / 2; // центр элемента по Х
-    let coordElX = marginClock + centrX - centrElX; // координаты элемента по Х
-    return coordElX;
-  }
-
-  // ------------- calc coord for element Y ----- считает координаты элементов по Y относительно окна браузера
-  function calcCoordElemY (val) {
-
-    if (val < 13) {
-      //координаты для циферблата (кружки + цифры)
-      let centrElY = parseInt(clockArr[val].style.height)/2; // центр элемента Y
-      let coordElY = marginClock + centrY - centrElY; // координаты элемента по Y
-      return coordElY;
-      //координаты для стрелок
-    } else if (val >= 13 && val < 16) {
-      let centrElY = parseInt(clockArr[val].style.height) - Math.round(sizeClock/20); // отступ стрелки по Y
-      let coordElY = marginClock + centrY - centrElY; // координаты элемента по Y
-      return coordElY;
-      //координаты для электронных часов
-    } else {
-      let centrElY = parseInt(clockArr[val].style.height)/2; // центр элемента Y
-      let coordElY = marginClock + centrY/2 - centrElY; // координаты элемента по Y
-      return coordElY;
-    }
-  }
-
-  //---------------- style for body -------- задаем отступы для body, нужно для того, чтобы часы можно было двигать
-  document.getElementsByTagName('body')[0].id = 'body';
-  document.getElementById('body').style.margin = '0px';
-  document.getElementById('body').style.padding = '0px';
-  let base = document.getElementById('body');
-
-  //---------------- new div for clock ------------- основа для часов
-  let clock = document.createElement('div');
-  document.getElementById('body').appendChild(clock);
-
-  clockArr[0] = document.getElementsByTagName('div')[0];
-  clockArr[0].id = 'base_clock';
-  baseClock = document.getElementById('base_clock');
+function createClock() {
+  //-- основа для часов --
+  let baseClock = document.createElement('div');
+  baseClock.id = 'base_clock';
   baseClock.style.margin = '30px';
-  addCSS(0, 1, 1, '#C0C0C0', 50);
+  baseClock.style.padding = '0px';
+  baseClock.style.background = '#C0C0C0';
+  baseClock.style.borderRadius = '50%';
+  baseClock.style.width = Math.round(sizeClock) + 'px';
+  baseClock.style.height = Math.round(sizeClock) + 'px';
 
-  //-- background image cat --
+  marginClock = parseInt(bodyClock.style.margin) + parseInt(bodyClock.style.padding)
+  + parseInt(baseClock.style.margin) + parseInt(baseClock.style.padding); // общий отступ margin и padding
+
+  baseClock.appendChild(addImageForBaseClock());
+  baseClock.appendChild(createClockFace());
+  baseClock.appendChild(createHandsClosk('hour', '#191970', 33, 4));
+  baseClock.appendChild(createHandsClosk('minutes', '#191970', 50, 3));
+  baseClock.appendChild(createHandsClosk('seconds', 'red', 200, 2.5));
+  baseClock.appendChild(createDigitalWatch());
+  return baseClock;
+}
+
+//-- фон часов - кот --
+function addImageForBaseClock() {
   let imageForClock = document.createElement('img');
-  baseClock.appendChild(imageForClock);
   imageForClock.src = './img/cat.jpg';
   imageForClock.style.width = sizeClock + 'px';
   imageForClock.style.height = sizeClock + 'px';
   imageForClock.style.borderRadius = '50%';
+  return imageForClock;
+}
 
-  //--- const ---- здесь мы проверяем, заданы ли внешние отступы и ищем центр часов. 
-  //надо для того, чтобы мы могли без проблем двигать часы, и задавать внешние отступы
-  base.style.margin = base.style.margin || '0px';
-  base.style.padding = base.style.padding || '0px';
-  baseClock.style.margin = baseClock.style.margin || '0px';
-  baseClock.style.padding = baseClock.style.padding || '0px';
-  const marginClock = parseInt(base.style.margin) + parseInt(base.style.padding)
-    + parseInt(baseClock.style.margin) + parseInt(baseClock.style.padding); // общий отступ margin и padding
-  const centrX = parseInt(baseClock.style.width) / 2; // центр часов по Х
-  const centrY = parseInt(baseClock.style.height) / 2; // центр часов по Y
-
-  // -- create numbers (tag p) ----- функция создает циферблат (кружки + цифры)
-  function createBaseForNumber(val) {
-
-    let BaseForNumber = document.createElement('div');
-    document.getElementById('base_clock').appendChild(BaseForNumber);
-    clockArr[val] = document.getElementsByTagName('div')[val];
-
-    // в функции создаются кружки размеров 8 на 8, с закруглегием на 50%
-    addCSS(val, 8, 8, '#FFF0F5', 50);
-
-    // расположение кружков циферблата
-    clockArr[val].style.transform = 
-      'rotate(' + (val * 30 + 270) + 'deg) translateX(' + 
-      Math.round(sizeClock / 2.6) + 'px) rotate(' + (-val * 30 + 90) + 'deg)';
-    
-      // проставляются сами цифры на циферблате
-   BaseForNumber.innerHTML = 
-    '<p style="color: #191970; font-weight: bold; margin: 0; font-size:'
-     + Math.round(sizeClock / 10) + 'px; display:flex; justify-content:center;">'
-     + val + '</p>';
+// --  циферблат --
+function createClockFace() {
+  let clockFace = document.createDocumentFragment();
+  for (let i = 1; i <= 12; i++) {
+    clockFace.appendChild(createHourCircle(i));
   }
+  return clockFace;
+}
 
-  // вызывает функцию, которая создает циферблат
-  for (let i = 1; i < 13; i++) {
-    createBaseForNumber(i);
-  }
+function createHourCircle(i) {
+  let circle = document.createElement('div');
+  circle.style.width = Math.round(sizeClock / 8) + 'px';
+  circle.style.height = Math.round(sizeClock / 8) + 'px';
+  circle.style.background = '#FFF0F5';
+  circle.style.borderRadius = '50%';
+  circle.style.position = 'absolute';
+  circle.style.left = marginClock + centrClock - parseInt(circle.style.width) / 2 + 'px';
+  circle.style.top = marginClock + centrClock - parseInt(circle.style.height) / 2 + 'px';
 
-  // ------------- create hour hands ------- создает стрелки часов
-  function createHands() {
-  
-    // стрелка часов
-    let hourHand = document.createElement('div');
-    document.getElementById('base_clock').appendChild(hourHand);
-    clockArr[13] = document.getElementsByTagName('div')[13];
-    addCSS(13, 33, 4, '#191970', 20);
-    
-    // минутная стрелка 
-    let minuteHand = document.createElement('div');
-    document.getElementById('base_clock').appendChild(minuteHand);
-    clockArr[14] = document.getElementsByTagName('div')[14];
-    addCSS(14, 50, 3, '#191970', 20);
+  circle.style.transform = 
+    'rotate(' + (i * 30 + 270) + 'deg) translateX(' + 
+    Math.round(sizeClock / 2.6) + 'px) rotate(' + (-i * 30 + 90) + 'deg)';
+    circle.appendChild(createTextСircle(i));
+  return circle;
+}
+function createTextСircle(i) {
+  let textСircle = document.createElement('p');
+  textСircle.style.fontSize = Math.round(sizeClock/13.3) + 'px';
+  textСircle.style.fontWeight = 'bold';
+  textСircle.style.color = '#191970';
+  textСircle.style.margin = '0px';
+  textСircle.style.fontSize = Math.round(sizeClock / 10) + 'px';
+  textСircle.style.display = 'flex';
+  textСircle.style.justifyContent = 'center';
+  textСircle.textContent = i;
+  return textСircle;
+}
 
-    // секундная стрелка
-    let secondHand = document.createElement('div');
-    document.getElementById('base_clock').appendChild(secondHand);
-    clockArr[15] = document.getElementsByTagName('div')[15];
-    addCSS(15, 200, 2.5, 'red', 20);
-  }
-  createHands();
+// -- создает стрелки часов --
+function createHandsClosk(id, color,cX, cY) {
+  let handsClosk = document.createElement('div');
+  handsClosk.id = id;
+  handsClosk.style.width = Math.round(sizeClock / cX) + 'px';
+  handsClosk.style.height = Math.round(sizeClock / cY) + 'px';
+  handsClosk.style.background = color;
+  handsClosk.style.borderRadius = '20%';
+  handsClosk.style.position = 'absolute';
+  handsClosk.style.left = marginClock + centrClock - parseInt(handsClosk.style.width) + 'px';
+  handsClosk.style.top = marginClock + centrClock - parseInt(handsClosk.style.height) + 'px';
+  return handsClosk;
+}
 
-  // ------------- create electronic clock ------------ электронные часы
+// -- электронные часы --
+function createDigitalWatch() {
   let timer = document.createElement('div');
-  document.getElementById('base_clock').appendChild(timer);
-  clockArr[16] = document.getElementsByTagName('div')[16];
-  addCSS(16, 3.6, 10, 'none', 0);
+  timer.style.width = Math.round(sizeClock / 3.6) + 'px';
+  timer.style.height = Math.round(sizeClock / 10) + 'px';
+  timer.style.position = 'absolute';
+  timer.style.left = marginClock + centrClock - parseInt(timer.style.width) / 2 + 'px';
+  timer.style.top =  marginClock + centrClock / 2 - parseInt(timer.style.height) / 2 + 'px';
+  timer.appendChild(createTextTimer());
+  return timer;
+}
+function createTextTimer() {
+  let textTimer = document.createElement('p');
+  textTimer.id = 'timer';
+  textTimer.style.fontSize = Math.round(sizeClock / 13.3) + 'px';
+  textTimer.style.fontWeight = 'bold';
+  textTimer.style.color = '#FFFAFA';
+  textTimer.style.textShadow = '#000 1px 1px 0, #000 2px 2px 0';
+  return textTimer;
+}
 
-  // Logic
-  // берем время и разбиваем его на часы, минуты и сек
-  function updateTime() {
-    let CurrTime = new Date();
-    hours = CurrTime.getHours();
-    minutes = CurrTime.getMinutes();
-    seconds = CurrTime.getSeconds();
+// Logic
+// берем время и разбиваем его на часы, минуты и сек
+function updateTime() {
+  let CurrTime = new Date();
+  hours = CurrTime.getHours();
+  minutes = CurrTime.getMinutes();
+  seconds = CurrTime.getSeconds();
+  document.getElementById('timer').textContent = Str0L(hours, 2) + ':' + Str0L(minutes, 2) + ':' + Str0L(seconds, 2);
+}
 
-    // прописываем время в электронные часы
-    clockArr[16].innerHTML = '<p></p>';
-    document.getElementsByTagName('p')[12].style.fontSize = Math.round(sizeClock/13.3) + 'px';
-    document.getElementsByTagName('p')[12].style.fontWeight = 'bold';
-    document.getElementsByTagName('p')[12].style.color = '#FFFAFA';
-    document.getElementsByTagName('p')[12].style.textShadow = '#000 1px 1px 0, #000 2px 2px 0';
-    document.getElementsByTagName('p')[12].style.color = '#FFFAFA';
-    document.getElementsByTagName('p')[12].textContent = Str0L(hours, 2) + ':' + Str0L(minutes, 2) + ':' + Str0L(seconds, 2);
-  }
+// добавляем нули, если минут или сек < 10
+function Str0L(val, len) {
+  var strVal = val.toString();
+  while (strVal.length < len)
+    strVal = '0' + strVal;
+  return strVal;
+}
 
-  // добавляем нули, если минут или сек < 10
-  function Str0L(val, len) {
-    var strVal = val.toString();
-    while (strVal.length < len)
-      strVal = '0' + strVal;
-    return strVal;
-  }
-
-  //----------- launch mechanism ------ запускаем механизм (стрелки)
-  function goHandClock(cl, val) {
-    clockArr[val].style.transform = 
-      'rotate(' + cl * 6 + 'deg) translateX(-5px) rotate(' + 0 + 'deg)';
-    clockArr[val].style.transformOrigin = '0 100%';
-  }
-  // собираем всю логику в одну функцию, чтобы потом повесить на один таймер
-  function goTime() {
-    updateTime();
-    let hour = hours > 12 ? hours - 12 : hours;
-    goHandClock(hour * 5, 13);
-    goHandClock(minutes, 14);
-    goHandClock(seconds, 15);
-  }
-  //вызываем таймер
-  setInterval(goTime, 1000);
-})();
+// запускаем механизм (стрелки)
+function goHandClock(cl, id) {
+  document.getElementById(id).style.transform = 
+    'rotate(' + cl * 6 + 'deg) translateX(-5px) rotate(' + 0 + 'deg)';
+  document.getElementById(id).style.transformOrigin = '0 100%';
+}
+// собираем всю логику в одну функцию, чтобы потом повесить на один таймер
+function goTime() {
+  updateTime();
+  let hour = hours > 12 ? hours - 12 : hours;
+  goHandClock(hour * 5, 'hour');
+  goHandClock(minutes, 'minutes');
+  goHandClock(seconds, 'seconds');
+}
