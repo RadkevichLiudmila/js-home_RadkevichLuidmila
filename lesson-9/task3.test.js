@@ -5,7 +5,7 @@ describe('File test3.js', () => {
     expect(anClean(['воз', 'киборг', 'корсет', 'ЗОВ', 'гробик', 'костер', 'сектор'])).toEqual(['ЗОВ', 'гробик', 'сектор']);
   });
   it('Cleans the array from annograms, leaves only one last word from the pair. Option 2', () => {
-    expect(anClean(['колба', 'карта', 'игры', 'карат', 'блок', 'бокал', 'катар'])).toEqual(['игры', 'блок', 'бокал', 'катар']);
+    expect(anClean(['колба', 'карта', 'игры', 'карат', 'блок', 'бокал', 'катар'])).toEqual(["бокал", "катар", "игры", "блок"]);
   });
   it('Cleans the array from annograms, leaves only one last word from the pair. Option 3', () => {
     expect(anClean(['монета', 'немота', 'Отмена', 'клоун', 'колун', 'уклон', 'кулон'])).toEqual(['Отмена', 'кулон']);

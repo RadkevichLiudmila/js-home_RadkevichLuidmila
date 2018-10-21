@@ -13,20 +13,21 @@
     }
   }
 
-  Question.prototype.checkAnswer = function (ans) {
+  Question.prototype.checkAnswer = function (ans, callback) {
+    var sc;
     if (ans === this.correct) {
       console.log('Correct answer!');
-      return function (ansTrue) {
-        ansTrue++;
-        return ansTrue;
-      };
+      sc = callback(true);
     } else {
       console.log('Wrong answer. Try again :)');
-      return function (ansTrue) {
-        return ansTrue;
-      };
+      sc = callback(false);
     }
+    this.displayScore(sc);
   }
+
+  Question.prototype.displayScore = function(score) {
+    console.log('Your current score is: ' + score);
+  };
 
   var q1 = new Question('Is JavaScript the coolest programming language in the world?',
     ['Yes', 'No'],
@@ -41,35 +42,32 @@
     2);
 
   var questions = [q1, q2, q3];
-  var answerTrue = 0;
+  
+  function score() {
+    var sc = 0;
+    return function(correct) {
+      if (correct) {
+        sc++;
+      }
+      return sc;
+    }
+  }
+  var keepScore = score();
 
   function funcRepeat() {
     var n = Math.floor(Math.random() * questions.length);
 
     questions[n].displayQuestion();
 
-    var ch = prompt('Please select the correct answer.');
-    var answer = parseInt(ch, 10);
+    var answer = prompt('Please select the correct answer.');
 
-    answerTrue = questions[n].checkAnswer(answer)(answerTrue);
+    if(answer !== 'exit') {
+      questions[n].checkAnswer(parseInt(answer), keepScore);
 
-    return ch;
-  }
-
-  var chek = funcRepeat();
-
-  while (chek !== 'exit') {
-    chek = funcRepeat();
-  }
-
-  Question.prototype.showResult = (function (ansTrue) {
-    if (ansTrue === 0)  {
-      console.log('You answered incorrectly to all the questions');
-    }  else if (ansTrue === 1) {
-      console.log('You answered correctly to ' + ansTrue + ' question');
-    } else {
-      console.log('You answered correctly to ' + ansTrue + ' questions');
+      funcRepeat();
     }
-  })(answerTrue);
+  }
 
+  funcRepeat();
+  
 })();

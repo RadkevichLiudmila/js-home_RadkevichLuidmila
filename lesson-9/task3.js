@@ -1,30 +1,19 @@
 'use strict';
 function anClean(arr) {
+  var obj = {};
 
-  function modified(element) {
-    return element.toLowerCase().split('').sort().join('');
+  for (var i = 0; i < arr.length; i++) {
+    var sorted = arr[i].toLowerCase().split('').sort().join('');
+    obj[sorted] = arr[i];
   }
 
-  function lookForRepeat(element, index, array) {
-    var value = element;
-    if (array.indexOf(value, index + 1) !== -1) {
-      return 'repeat';
-    }
-    return element;
+  var result = [];
+
+  for (var key in obj) {
+    result.push(obj[key]);
   }
 
-  function elementDelete(arr1, arr2) {
-    for (var i = 0; i < arr2.length; i++) {
-      if (arr2[i] === 'repeat') {
-        delete arr1[i];
-      }
-    }
-    return arr1;
-  }
-
-  var arrModified = arr.map(modified).map(lookForRepeat);
-  elementDelete(arr, arrModified);
-  return arr.filter(elementDelete);
+  return result;
 }
 
 module.exports = anClean;
