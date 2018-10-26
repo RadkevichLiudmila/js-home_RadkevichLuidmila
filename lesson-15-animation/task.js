@@ -94,6 +94,7 @@ function DescriptionOfObject(Width, Height, PosX, PosY, SpeedX, SpeedY, Id) {
     Obj.style.height = this.Height + 'px';
     Obj.style.left = this.PosX + 'px';
     Obj.style.top = this.PosY + 'px';
+    Obj.style.transform = 'translateZ(0)';
   }
 }
  
