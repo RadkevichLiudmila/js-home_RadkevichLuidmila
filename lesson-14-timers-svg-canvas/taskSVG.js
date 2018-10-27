@@ -12,21 +12,25 @@ setInterval(tickTimer, 1000);
  
 // UI
 function createWatch() {
+  svgClock.appendChild(createBase());
+  svgClock.appendChild(createClockFace());
+  svgClock.appendChild(createDigitalWatch());
+  svgClock.appendChild(createDigitalText('hourstext', -15));
+  svgClock.appendChild(createDigitalText('minutestext', 10));
+  svgClock.appendChild(createDigitalText('secondstext', 40));
+  svgClock.appendChild(createArrow('hours', 6, 'black'));
+  svgClock.appendChild(createArrow('minutes', 4, 'black'));
+  svgClock.appendChild(createArrow('seconds', 2, 'red'));
+  svgClock.appendChild(createDecorativeDot(dotSize));
+}
+function createBase() {
   let base = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
-
   base.setAttribute("fill", "#fff");
   base.setAttribute("stroke", "#f1f1f1");
   base.setAttribute("stroke-width", baseRadius / 15);
   base.setAttribute("r", baseRadius);
   base.setAttribute("cx", baseRadius + baseRadius / 15);
   base.setAttribute("cy", baseRadius + baseRadius / 15);
-  svgClock.appendChild(base);
-  createClockFace();
-  createDigitalWatch();
-  createArrow('hours', 6, 'black');
-  createArrow('minutes', 4, 'black');
-  createArrow('seconds', 2, 'red');
-  svgClock.appendChild(createDecorativeDot(dotSize));
   return base;
 }
 
@@ -36,8 +40,8 @@ function createClockFace() {
     let angle = number * 30 / 180 * Math.PI;
     let x = baseRadius + Math.round(Math.sin(angle) * numbersBaseRadius);
     let y = baseRadius - Math.round(Math.cos(angle) * numbersBaseRadius);
-    svgClock.appendChild(createHourCircle(x, y));
-    svgClock.appendChild(createNumberCircle(x, y, number));
+    clockFace.appendChild(createHourCircle(x, y));
+    clockFace.appendChild(createNumberCircle(x, y, number));
   }
   return clockFace;
 }
@@ -67,21 +71,17 @@ function createDigitalWatch() {
   textClock.setAttribute("x", baseRadius  + baseRadius / 15 - baseRadius / 3);
   textClock.setAttribute("y", baseRadius  + baseRadius / 15 + baseRadius / 5 );
   textClock.setAttribute("fill", "#f1f1f1");
-  svgClock.appendChild(textClock);
-  createDigitalText('hourstext', -15);
-  createDigitalText('minutestext', 10);
-  createDigitalText('secondstext', 40);
-
-  function createDigitalText(id, coord){
-    let digitsH = document.createElementNS("http://www.w3.org/2000/svg", 'text');
-    digitsH.setAttribute("x", baseRadius + baseRadius / 15 - baseRadius / 6 + coord);
-    digitsH.setAttribute("y", baseRadius + baseRadius / 15 + baseRadius / 2.7);
-    digitsH.setAttribute("fill", "#B0C4DE");
-    digitsH.setAttribute("id", id);
-    digitsH.setAttribute("font-size", circleRadius * 1.5);
-    svgClock.appendChild(digitsH);
-  }
   return textClock;
+}
+
+function createDigitalText(id, coord){
+  let digitsH = document.createElementNS("http://www.w3.org/2000/svg", 'text');
+  digitsH.setAttribute("x", baseRadius + baseRadius / 15 - baseRadius / 6 + coord);
+  digitsH.setAttribute("y", baseRadius + baseRadius / 15 + baseRadius / 2.7);
+  digitsH.setAttribute("fill", "#B0C4DE");
+  digitsH.setAttribute("id", id);
+  digitsH.setAttribute("font-size", circleRadius * 1.5);
+  return digitsH;
 }
 
 function createArrow(arrowType, arrowWidth, arrowColor) {
@@ -94,8 +94,6 @@ function createArrow(arrowType, arrowWidth, arrowColor) {
   arrow.setAttribute("stroke", arrowColor);
   arrow.setAttribute("stroke-linecap", "round");
   arrow.setAttribute("id", arrowType);
-
-  svgClock.appendChild(arrow);
   return arrow;
 }
 
@@ -104,7 +102,6 @@ function createDecorativeDot(size){
   dot.setAttribute("cx", baseRadius + baseRadius / 15);
   dot.setAttribute("cy", baseRadius + baseRadius / 15);
   dot.setAttribute("r", size);
-  svgClock.appendChild(dot);
   return dot;
 }
 
