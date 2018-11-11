@@ -1,29 +1,34 @@
 'use strict';
-function TLocalStorage(dr) {
-  var self = this,
-      pHash = {};
-
-  self.reset = function() {
-    if (window.localStorage.getItem(dr)) {
-      pHash = JSON.parse(window.localStorage.getItem(dr));
-      return pHash;
-    } else {
-      return '';
-    }
-  }
+function TLocalStorage(name) {
+  var self = this;
+  self.name = name;
+  self.storage = JSON.parse(localStorage.getItem(self.name)) || {};
 
   self.addValue = function(key, value) {
-    if (window.localStorage.getItem(dr)) {
-      pHash = JSON.parse(window.localStorage.getItem(dr));
-    }
-    pHash[key] = value;
-    window.localStorage.setItem(dr, JSON.stringify(pHash));
+    this.storage[key] = value;
+    localStorage.setItem(self.name, JSON.stringify(self.storage));
+  };
+
+  self.getValue = function (key) {
+    return self.storage[key];
   };
 
   self.deleteValue = function(key) {
-    pHash = JSON.parse(window.localStorage.getItem(dr));
-    console.log(pHash);
-    delete pHash[key];
-    window.localStorage.setItem(dr, JSON.stringify(pHash));
+    if (this.storage[key]) {
+      delete self.storage[key];
+      localStorage.setItem(self.name, JSON.stringify(self.storage));
+      return true;
+    } else {
+      return false;
+    }
   };
+  self.getKeys = function () {
+    var keys = [];
+
+    for (var i in self.storage) {
+      keys.push(i);
+    }
+
+    return keys;
+  }
 }

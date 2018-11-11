@@ -1,73 +1,68 @@
 'use strict';
 
-var drinkStorage = new THashStorage();
-var DrinksStorage = new TLocalStorage("DRINKS");
-
-(function apdata() {
-  var localStObj = DrinksStorage.reset();
-  for (var key in localStObj) {
-    drinkStorage.addValue(key, localStObj[key]);
-  }
-})();
+var drinkStorage = new TLocalStorage("DRINKS");
 
 function addDrink() {
-  var drinkName = prompt('Введите название напитка', 'Test Drink').toLowerCase().trim();
-  var fHash = {};
-
-  if (drinkName) {
-    fHash.recipe = prompt('Введите рецепт приготовления напитка', 'Test Recipe');
-    fHash.alcohol = confirm('Ваш напиток алкогольный?') ? 'да' : 'нет';
-
-    DrinksStorage.addValue(drinkName, fHash);
-
-    return drinkStorage.addValue(drinkName, fHash);
-  } else {
-    alert('Ввод отменен!');
+  var name = prompt('Введите название напитка', 'Test Drink').toLowerCase().trim();
+  while (name === '') {
+    name = prompt('Пожалуйста, введите название напитка', '');
   }
+  if (name === null) return;
+
+  if (drinkStorage.storage[name]) {
+    alert('Такой напиток уже есть!');
+    return;
+  }
+
+  var alcoholic = confirm('Напиток алкогольный?');
+  var recipe = prompt('Кратко опишите рецепт напитка', '');
+  var drinkInfo = {
+    isAlco: alcoholic,
+    recipe: recipe
+  }
+
+  if (drinkInfo) {
+    document.getElementById('info').innerHTML = 'Напиток ' + name +
+        ' успешно сохранен.';
+  }
+
+  drinkStorage.addValue(name, drinkInfo);
 }
 
 function showDrinkInfo() {
-  var drinkName = prompt('Введите название напитка: ','').toLowerCase().trim();
-  var getDrinkInfo = (drinkName) ? drinkStorage.getValue(drinkName) : 0;
-  var resultHTML = '';
+  var name = prompt('Введите название напитка', '');
+  if (name === '' || name === null) return;
 
-  if (getDrinkInfo) {
-    var print1 = 'Напиток: ' + drinkName + '<br>';
-    var print2 = 'Алкогольный: ' + getDrinkInfo.alcohol + '<br>';
-    var print3 = 'Рецепт приготовления: ' + getDrinkInfo.recipe + '<br>';
-
-    resultHTML = print1 + print2 + print3;
+  if (drinkStorage.storage[name]) {
+    document.getElementById('info').innerHTML = 'Напиток: ' + name + '<br>' +
+        'алкогольный: ' + (drinkStorage.storage[name].isAlco ? 'да' : 'нет') + '<br>' +
+        'рецепт: ' + drinkStorage.storage[name].recipe;
   } else {
-    resultHTML = 'Ошибка! Нет такого напитка';
+    document.getElementById('info').innerHTML = 'Такого напитка нет.';
   }
-  document.getElementById('message').innerHTML = resultHTML;
 }
 
 function removeDrink() {
-  var drinkName = prompt('Какой напиток удалить?').toLowerCase().trim();
-  DrinksStorage.deleteValue(drinkName);
-  var delDrinkInfo = drinkStorage.deleteValue(drinkName);
-
-  var resultHTML = '';
-
-  if (delDrinkInfo) {
-    resultHTML = 'Информация о напитке ' + drinkName + ' удалена';
-  } else {
-    resultHTML = 'Ошибка! Нет такого напитка';
+  var name = prompt('Введите название напитка, который хотите удалить', '');
+  var message = '';
+  while (name === '') {
+    name = prompt('Пожалуйста, введите название напитка, который хотите удалить', '');
   }
-  document.getElementById('message').innerHTML = resultHTML;
+  if (name === null) return;
+
+  if (drinkStorage.storage[name]) {
+    message = 'Напиток ' + name + ' удален.';
+  } else {
+    message = 'Информация не была удалена, т.к напиток под названием ' +
+        name + ' не существует';
+  }
+
+  document.getElementById('info').innerHTML = message;
+  drinkStorage.deleteValue(name);
 }
 
 function showDrinksMenu() {
-  var showMenuInfo = drinkStorage.getKeys();
-  var resultHTML = '';
-
-  if (showMenuInfo.length) {
-    for (var i = 0; i < showMenuInfo.length; i++) {
-      resultHTML += (i + 1) + '. ' + showMenuInfo[i] + '<br>';
-    }
-  } else {
-    resultHTML = 'Меню пустое, добавьте напитки.';
-  }
-  document.getElementById('message').innerHTML = resultHTML;
+  var allDrinks = drinkStorage.getKeys();
+  allDrinks = allDrinks.join(', ');
+  document.getElementById('info').innerHTML =  allDrinks;
 }
