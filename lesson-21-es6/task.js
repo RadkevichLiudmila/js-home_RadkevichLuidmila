@@ -6,123 +6,123 @@ let keyArticle = '';
 
 function addStorage() {
 
-        $.ajax(
-          {
-            url: AjaxHandlerScript,
-            type: 'POST',
-            data: {f: 'READ', n: 'Radkevich_ENCYCL'},
-            cache: false,
-            success: writeReady,
-            error: ErrorHandler
-          }
-        );
+  $.ajax(
+    {
+      url: AjaxHandlerScript,
+      type: 'POST',
+      data: {f: 'READ', n: 'Radkevich_ENCYCL'},
+      cache: false,
+      success: writeReady,
+      error: ErrorHandler
+    }
+  );
 }
 
 function writeReady(ResultH) {
-    storage = JSON.parse(ResultH.result);
+  storage = JSON.parse(ResultH.result);
 }
 
 function ErrorHandler (jqXHR, StatusStr, ErrorStr) {
-   alert(StatusStr + ' ' + ErrorStr);
+  alert(StatusStr + ' ' + ErrorStr);
 }
 
 window.onhashchange = renderNewState;
 
 function renderNewState() {
-    const hash = window.location.hash;
-    let state = decodeURIComponent(hash.substr(1));
+  const hash = window.location.hash;
+  let state = decodeURIComponent(hash.substr(1));
 
-    if (state === '') {
-        state = {page: 'first'};
-    } else {
-        state = JSON.parse(state);
-    }
+  if (state === '') {
+    state = {page: 'first'};
+  } else {
+    state = JSON.parse(state);
+  }
 
-    let page = '';
+  let page = '';
 
-    switch(state.page) {
+  switch(state.page) {
 
-        case 'first':
-            page +=`<h1>Энциклопедия</h1>
-            <a class='center' onclick='switchToSecond()'>список статей здесь</a>`;
-            break;
+    case 'first':
+      page +=`<h1>Энциклопедия</h1>
+      <a class='center' onclick='switchToSecond()'>список статей здесь</a>`;
+      break;
 
-        case 'second':
-        page +=`<h1>Оглавление</h1>`;
-        page +=`<div id=col>`;
-        page += addPage();
-        page +=`</div>`;
-            break;
+    case 'second':
+      page +=`<h1>Оглавление</h1>`;
+      page +=`<div id=col>`;
+      page += addPage();
+      page +=`</div>`;
+      break;
 
-        case `third ${keyArticle}`:
-        page +=`<h1>Название статьи</h1>`;
-        page += `<div id=articleList>`;
-        page += addPageArticleList();
-        page += `</div>`;
-        page += `<div id=article>`;
-        page += addPageArticle();
-        page += `</div>`;
-            break;
-    }
+    case `third ${keyArticle}`:
+      page +=`<h1>Название статьи</h1>`;
+      page += `<div id=articleList>`;
+      page += addPageArticleList();
+      page += `</div>`;
+      page += `<div id=article>`;
+      page += addPageArticle();
+      page += `</div>`;
+      break;
+  }
 
-    document.getElementById('page').innerHTML = page;
+  document.getElementById('page').innerHTML = page;
 }
 
 function switchToState(state) {
-    location.hash = encodeURIComponent(JSON.stringify(state));
+  location.hash = encodeURIComponent(JSON.stringify(state));
 }
 
 function switchToFirst() {
-    switchToState({page: 'first'});
+  switchToState({page: 'first'});
 }
 function switchToSecond() {
-    switchToState({page: 'second'});
+  switchToState({page: 'second'});
 }
 function switchToThird() {
 
-    keyArticle = event.target.textContent;
-    switchToState({page: `third ${keyArticle}`});
+  keyArticle = event.target.textContent;
+  switchToState({page: `third ${keyArticle}`});
 }
 
 function addPage() {
-    let storageSort = {};
-    let pageSt = '';
+  let storageSort = {};
+  let pageSt = '';
 
-    Object.keys(storage).sort().forEach(function(key) {
-        storageSort[key] = storage[key];
-      });
+  Object.keys(storage).sort().forEach(function(key) {
+    storageSort[key] = storage[key];
+  });
 
-    let firstLetter = 'а';
+  let firstLetter = 'а';
 
-    for (let key in storageSort) {
+  for (let key in storageSort) {
 
-        if (key[0] !== firstLetter) {
-            firstLetter = key[0];
-            pageSt +=`<p id="firstLetter">${firstLetter}</p>`;
-        }
-        pageSt += `<a onclick='switchToThird()'>${key}</a><br>`;
+    if (key[0] !== firstLetter) {
+      firstLetter = key[0];
+      pageSt +=`<p id="firstLetter">${firstLetter}</p>`;
     }
-    return pageSt;
+    pageSt += `<a onclick='switchToThird()'>${key}</a><br>`;
+  }
+  return pageSt;
 }
 
 function addPageArticleList() {
-    let storageSort = {};
-    let pageSt = '';
+  let storageSort = {};
+  let pageSt = '';
 
-    Object.keys(storage).sort().forEach(function(key) {
-        storageSort[key] = storage[key];
-      });
+  Object.keys(storage).sort().forEach(function(key) {
+    storageSort[key] = storage[key];
+  });
 
-    for (let key in storageSort) {
-        pageSt += `<a onclick='switchToThird()'>${key}</a><br>`;
-    }
-    return pageSt;
+  for (let key in storageSort) {
+    pageSt += `<a onclick='switchToThird()'>${key}</a><br>`;
+  }
+  return pageSt;
 }
 
 function addPageArticle() {
-    let pageSt = '';
-    pageSt += `<p>${storage[keyArticle]}</p>`;
-    return pageSt;
+  let pageSt = '';
+  pageSt += `<p>${storage[keyArticle]}</p>`;
+  return pageSt;
 }
 
 addStorage();
