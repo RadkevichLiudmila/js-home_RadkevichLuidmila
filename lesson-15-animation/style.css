@@ -1,0 +1,24 @@
+p {
+    font-size: 24px;
+    font-weight: bold
+}
+#playingField {
+    position: relative;
+    border: 1px solid  black;
+    background: #FAF0E6;
+}
+#ball {
+    border-radius: 50%;
+    position: absolute;
+    background: red;
+}
+#racket1 {
+    position: absolute;
+    background: green;
+}
+#racket2 {
+    position: absolute;
+    background: blue;
+}
+
+
