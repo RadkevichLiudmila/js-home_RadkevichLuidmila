@@ -1,0 +1,45 @@
+button {
+    position: absolute;
+    width: 350px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: dodgerblue;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 20px;
+}
+.btn-input { top: 50px;}
+.btn-show { top: 150px;}
+.btn-delete { top: 250px;}
+.btn-list-drinks { top: 350px;}
+
+.bloks{
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 350px;
+}
+.bloks p{
+    position: relative;
+    font-size: 18px;
+    margin-top: 50px;
+}
+.bloks input{
+    position: relative;
+    margin-top: 50px;
+    width: 350px;
+}
+.bloks button{
+    position: relative;
+    margin-top: 50px;
+}
+.inp-recipe{
+    height: 250px;
+}
+.name-drink, .alco-or-no, .recipe,
+.bl-2, .bl-3, .bl-4{
+    display: none;
+}
